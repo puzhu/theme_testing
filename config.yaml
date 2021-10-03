@@ -1,0 +1,84 @@
+baseURL: https://tf-illustratedbytes.netlify.app/
+title: Illustrated Bytes
+theme: illustrated-bytes
+timeZone: UTC
+paginate: '6'
+summaryLength: '10'
+googleAnalytics: ''
+disqusShortname: themefisher-template
+disableLanguages: []
+ignoreFiles:
+  - \.Rmd$
+  - \.Rmarkdown$
+  - _cache$
+  - \.knit\.md$
+  - \.utf8\.md$
+module:
+  hugoVersion:
+    extended: yes
+    min: 0.87.0
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+    - WebAppManifest
+imaging:
+  quality: 90
+caches:
+  assets:
+    dir: :resourceDir/_gen
+    maxAge: 720h
+  images:
+    dir: :resourceDir/_gen
+    maxAge: 720h
+markup:
+  goldmark:
+    renderer:
+      unsafe: yes
+  highlight:
+    style: monokai
+mediaTypes:
+  application/manifest+json:
+    suffixes: webmanifest
+  text/netlify:
+    delimiter: ''
+    suffixes: ''
+outputFormats:
+  WebAppManifest:
+    mediaType: application/manifest+json
+    rel: manifest
+params:
+  plugins:
+    css:
+      - link: plugins/font-awesome/fontawesome.min.css
+      - link: plugins/font-awesome/brands.css
+      - link: plugins/search/auto-complete.css
+      - link: plugins/slick/slick.css
+    js:
+      - link: plugins/jquery/jquery.min.js
+      - link: plugins/bootstrap/bootstrap.min.js
+      - link: plugins/slick/slick.min.js
+      - link: plugins/masonry/masonry.min.js
+      - link: plugins/webfont-loader/webfont-loader-2.min.js
+      - link: plugins/search/auto-complete.js
+      - link: plugins/search/search.js
+      - link: plugins/search/lunr.min.js
+  variables:
+    black: '#000'
+    body_color: '#fff'
+    border_color: '#c2c5d5'
+    color_primary: '#feaf48'
+    font_icon: Font Awesome 5 Free
+    font_primary: Poppins:wght@400;500;700
+    font_primary_type: sans-serif
+    font_scale: '1.25'
+    font_secondary: Kaisei+Tokumin
+    font_secondary_type: serif
+    font_size: 16px
+    gradient_primary: 'linear-gradient(to right, #ff7755, #feaa4a)'
+    light: '#fdfdfd'
+    text_color: '#404040'
+    text_dark: '#233044'
+    text_light: '#959595'
+    white: '#fff'

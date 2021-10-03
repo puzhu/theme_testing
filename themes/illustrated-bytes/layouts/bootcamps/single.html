@@ -1,0 +1,119 @@
+{{ define "main" }}
+
+<section class="pt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-5 mb-md-0">
+        <h1 class="h3">{{ .Title }}</h1>
+        {{ with .Content }}<div class="content mb-4">{{ . }}</div>{{ end }}
+        {{ with .Params.price }}<span class="text-default"><span class="text-light">Price:</span>
+          {{.}}</span>{{ end }}<br>
+        <span class="text-default"><span class="text-light">Start Date:</span>
+          {{.Date | time.Format ":date_long"}}</span><br>
+        <span class="text-default"><span class="text-light">End Date:</span>
+          {{.Lastmod | time.Format ":date_long"}}</span><br>
+        <!-- Duration Calculation -->
+        {{ $ageDays:= div (sub .Lastmod.Unix .Date.Unix) 86400 }}
+        {{ $ageMonths:= div (sub .Lastmod.Unix .Date.Unix) 2592000 }}
+        <span class="text-default"><span class="text-light">Duration:</span>
+          {{if lt $ageDays 31}}{{$ageDays}}&nbsp;{{cond (eq $ageDays 1) "day" "days"}}{{else}}{{$ageMonths}}&nbsp;{{cond (eq $ageMonths 1) "month" "months"}}{{end}}</span>
+      </div>
+      <div class="col-md-6">
+        <h2 class="fw-normal h4">Enroll Now</h2>
+        <form data-netlify="true" name="contact" method="POST" class="row">
+          <div class="col-6 mb-3">
+            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" required>
+          </div>
+          <div class="col-6 mb-3">
+            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name">
+          </div>
+          <div class="col-6 mb-3">
+            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+          </div>
+          <div class="col-6 mb-3">
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" required>
+          </div>
+          <div class="col-12 mb-3">
+            <textarea class="form-control" name="message" id="message" rows="5" placeholder="Message" required></textarea>
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-primary">Send</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{ with site.GetPage "testimonials" }}
+<section class="section pb-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="fw-normal h4">{{.Title}}</h2>
+      </div>
+    </div>
+    <div class="row testimonial-slider">
+      {{ range .Params.testimonials }}
+      <div class="col-md-4 col-sm-6 mb-4">
+        <div class="card">
+          <div class="card-body">
+            {{with .title}}<h3 class="h5">{{. | markdownify}}</h3>{{ end }}
+            <div class="content">{{ .content | markdownify }}</div>
+          </div>
+          <div class="card-footer d-flex align-items-center py-3">
+            <!-- image path -->
+            {{ $imagePath:= .image }}
+            <!-- image CDN -->
+            {{ if hasPrefix $imagePath "http" }}
+            <img loading="lazy" decoding="async" src="{{ $imagePath | safeURL }}" alt="{{ .Title }}"
+              class="card-img-author">
+            {{ else }}
+            <!-- /image cdn -->
+
+            <!-- image processing for single device -->
+            {{ if fileExists (add `assets/` $imagePath) }}
+            {{ $image:= resources.Get $imagePath }}
+            {{ $imageFallback:= $image.Resize "100x" }}
+            {{ $imageWebp:= $image.Resize "100x webp" }}
+            <img loading="lazy" decoding="async" src="{{$imageWebp.RelPermalink}}" alt="{{ .Title }}"
+              class="card-img-author" onerror="this.onerror='null';this.src='{{$imageFallback.RelPermalink}}'">
+            {{ end }}
+            <!-- /image processing for single device -->
+            {{ end }}
+            <div class="ms-2">
+              <h3 class="card-title h6 mb-0">{{.name}}</h3>
+              <p class="mb-0">{{ .designation | markdownify}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{ with site.GetPage "faqs" }}
+<section class="section">
+  <div class="container">
+    <div class="row masonry-wrapper">
+      <div class="col-12">
+        <h2 class="fw-normal h4 mb-4">{{.Title}}</h2>
+      </div>
+      {{ range $i, $e:= .Params.faqs }}
+      <div class="col-md-6 mb-4">
+        <div class="card">
+          <div class="card-body p-4">
+            <h3 class="h5">{{add $i 1}}.&nbsp;{{.title | markdownify}}</h3>
+            <div class="content">{{ .content | markdownify }}</div>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{ end }}

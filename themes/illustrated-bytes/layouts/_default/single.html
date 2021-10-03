@@ -1,0 +1,57 @@
+{{ define "main" }}
+
+<!-- checking blog -->
+{{ if or (eq .Section "byte") (eq .Section "bytes") (eq .Section "blog") (eq .Section "blogs") (eq .Section "news") (eq .Section "tags") (eq .Section "tags") }}
+
+<section class="section-sm pt-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <article>
+          <div class="text-center mb-5">
+            <h1 class="mb-3 h3">{{.Title}}</h1>
+            <span class="text-light fw-bold">Date: </span>
+            <span class="text-light">{{ .PublishDate | time.Format ":date_long" }}</span>
+            {{ with .Params.tags }}
+            <span class="text-light fw-bold ms-3">Tags: </span>
+            {{ range . }}
+            <a href="{{`tags/` | relLangURL}}{{. | urlize | lower}}" class="card-meta">{{. | title}}</a>
+            {{ end }}
+            {{ end }}
+          </div>
+          {{ if .Params.image }}
+          <img loading="lazy" decoding="async" src="{{.RelPermalink}}/{{ .Params.image }}" alt="{{ .Title }}" class="img-fluid w-100 mb-4 rounded">
+          {{ end }}
+
+          <div class="content">{{.Content}}</div>
+        </article>
+
+        <!-- comments -->
+        {{ if .Site.DisqusShortname }}
+        <div class="mt-5">
+          {{ template "_internal/disqus.html" . }}
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- regular page -->
+{{ else }}
+{{ partial "page-header.html" . }}
+<section class="section-sm pt-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        <div class="content">
+          {{.Content}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+<!-- /regular page -->
+
+{{ end }}

@@ -1,0 +1,23 @@
+############# English navigation ##############
+
+# main menu
+[[main]]
+name = "Bootcamps"
+url = "bootcamps/"
+weight = 2
+
+[[main]]
+name = "Bytes"
+url = "bytes/"
+weight = 3
+
+# footer menu
+[[footer]]
+name = "Privacy Policy"
+url = "https://tf-illustratedbytes.netlify.app/privacy-policy/"
+weight = 4
+
+[[footer]]
+name = "Terms & Conditions"
+url = "https://tf-illustratedbytes.netlify.app/terms-conditions/"
+weight = 4

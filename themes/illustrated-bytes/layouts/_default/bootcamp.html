@@ -1,0 +1,12 @@
+<div class="card mb-3">
+  <div class="card-body arrow-btn">
+    <h3 class="h6"><a class="stretched-link link-title" href="{{ .RelPermalink }}">{{ .Title | markdownify }}</a></h3>
+    {{ with .Params.price }}<span class="text-default"><span class="text-light">Price:</span> {{.}}</span>{{ end }}<br>
+    <span class="text-default"><span class="text-light">Start Date:</span> {{.Date | time.Format ":date_long"}}</span><br>
+    <span class="text-default"><span class="text-light">End Date:</span> {{.Lastmod | time.Format ":date_long"}}</span><br>
+    <!-- Duration Calculation -->
+    {{ $ageDays:= div (sub .Lastmod.Unix .Date.Unix) 86400 }}
+    {{ $ageMonths:= div (sub .Lastmod.Unix .Date.Unix) 2592000 }}
+    <span class="text-default"><span class="text-light">Duration:</span> {{if lt $ageDays 31}}{{$ageDays}}&nbsp;{{cond (eq $ageDays 1) "day" "days"}}{{else}}{{$ageMonths}}&nbsp;{{cond (eq $ageMonths 1) "month" "months"}}{{end}}</span>
+  </div>
+</div>
